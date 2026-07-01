@@ -6,16 +6,16 @@ export default function DashboardLayout({ title, subtitle, children }) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="flex min-h-screen bg-paper">
+    <div className="app-shell">
       <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="app-main-wrap">
         <Navbar
           title={title}
           subtitle={subtitle}
           onMenuClick={() => setSidebarOpen(true)}
         />
-        <main className="flex-1 px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        <main className="app-main">{children}</main>
       </div>
     </div>
   )
