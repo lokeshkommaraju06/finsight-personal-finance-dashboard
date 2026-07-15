@@ -10,8 +10,22 @@ const emptyForm = {
   date: new Date().toISOString().slice(0, 10),
 }
 
-export default function AddTransactionModal({ onClose, onSubmit }) {
-  const [form, setForm] = useState(emptyForm)
+// This same modal handles both "Add" and "Edit". Pass a `transaction` to
+// pre-fill the form and switch it into edit mode.
+export default function AddTransactionModal({ transaction, onClose, onSubmit }) {
+  const isEditing = Boolean(transaction)
+
+  const [form, setForm] = useState(() =>
+    isEditing
+      ? {
+          title: transaction.title,
+          amount: String(transaction.amount),
+          category: transaction.category,
+          type: transaction.type,
+          date: transaction.date,
+        }
+      : emptyForm
+  )
   const [error, setError] = useState('')
 
   function handleChange(field) {
@@ -40,7 +54,7 @@ export default function AddTransactionModal({ onClose, onSubmit }) {
   }
 
   return (
-    <Modal title="Add Transaction" onClose={onClose}>
+    <Modal title={isEditing ? 'Edit Transaction' : 'Add Transaction'} onClose={onClose}>
       <form className="transaction-form" onSubmit={handleSubmit}>
         <label className="form-field">
           <span className="form-label">Title</span>
@@ -110,7 +124,7 @@ export default function AddTransactionModal({ onClose, onSubmit }) {
             Cancel
           </button>
           <button type="submit" className="btn-primary">
-            Add Transaction
+            {isEditing ? 'Save Changes' : 'Add Transaction'}
           </button>
         </div>
       </form>

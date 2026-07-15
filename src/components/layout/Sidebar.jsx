@@ -11,7 +11,7 @@ import {
 const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/', end: true },
   { label: 'Transactions', icon: ArrowLeftRight, path: '/transactions' },
-  { label: 'Budgets', icon: PiggyBank, soon: true },
+  { label: 'Budgets', icon: PiggyBank, path: '/budgets' },
   { label: 'Reports', icon: BarChart3, soon: true },
 ]
 

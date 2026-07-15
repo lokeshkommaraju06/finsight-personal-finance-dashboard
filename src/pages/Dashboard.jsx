@@ -1,42 +1,88 @@
-import { Inbox } from 'lucide-react'
 import Card from '../components/ui/Card.jsx'
 import StatCard from '../components/ui/StatCard.jsx'
+import ExpenseCategoryChart from '../components/dashboard/ExpenseCategoryChart.jsx'
+import IncomeExpenseChart from '../components/dashboard/IncomeExpenseChart.jsx'
+import RecentTransactionsCard from '../components/dashboard/RecentTransactionsCard.jsx'
 import { useTransactions } from '../context/TransactionsContext.jsx'
+import { useBudgets } from '../context/BudgetsContext.jsx'
 import { formatCurrency } from '../utils/format.js'
+import { getRecentTransactions } from '../utils/calculateStats.js'
 
 export default function Dashboard() {
-  const { transactions, stats, categoryBreakdown } = useTransactions()
+  const { transactions, stats, categoryBreakdown, quickStats } = useTransactions()
+  const { budgetTotals } = useBudgets()
 
   const incomeCount = transactions.filter((t) => t.type === 'Income').length
   const expenseCount = transactions.filter((t) => t.type === 'Expense').length
-  const recentTransactions = transactions.slice(0, 4)
+  const recentTransactions = getRecentTransactions(transactions, 5)
 
-  // Built from live context state, so these update the moment a
-  // transaction is added on the Transactions page.
+  // Built from live context state (calculateDashboardStats), so these
+  // update the moment a transaction is added, edited, or deleted.
   const summaryStats = [
     {
-      label: 'Total Balance',
-      value: formatCurrency(stats.totalBalance),
-      change: `${transactions.length} transactions logged`,
-      tone: 'neutral',
-    },
-    {
-      label: 'Income',
+      label: 'Total Income',
       value: formatCurrency(stats.income),
       change: `${incomeCount} income entries`,
       tone: 'emerald',
     },
     {
-      label: 'Expenses',
+      label: 'Total Expenses',
       value: formatCurrency(stats.expenses),
       change: `${expenseCount} expense entries`,
       tone: 'rust',
     },
     {
-      label: 'Savings',
-      value: formatCurrency(stats.savings),
-      change: stats.savings >= 0 ? 'On track' : 'Overspending',
-      tone: stats.savings >= 0 ? 'emerald' : 'rust',
+      label: 'Current Balance',
+      value: formatCurrency(stats.balance),
+      change: stats.balance >= 0 ? 'Positive' : 'Negative',
+      tone: stats.balance >= 0 ? 'emerald' : 'rust',
+    },
+    {
+      label: 'Total Transactions',
+      value: String(stats.totalTransactions),
+      change: 'All time',
+      tone: 'neutral',
+    },
+  ]
+
+  // Quick Statistics — highest expense, highest income, and average
+  // transaction amount, all derived from calculateQuickStats(). Reuses
+  // the same StatCard component as the summary row above.
+  const quickStatCards = [
+    {
+      label: 'Highest Expense',
+      value: formatCurrency(quickStats.highestExpense),
+      change: 'Largest single expense',
+      tone: 'rust',
+    },
+    {
+      label: 'Highest Income',
+      value: formatCurrency(quickStats.highestIncome),
+      change: 'Largest single income',
+      tone: 'emerald',
+    },
+    {
+      label: 'Average Transaction',
+      value: formatCurrency(quickStats.averageAmount),
+      change: 'Across all transactions',
+      tone: 'neutral',
+    },
+  ]
+
+  // Total Budget / Total Remaining Budget — from BudgetsContext, so these
+  // update automatically whenever a budget or transaction changes.
+  const budgetStatCards = [
+    {
+      label: 'Total Budget',
+      value: formatCurrency(budgetTotals.totalBudget),
+      change: 'Across all categories',
+      tone: 'neutral',
+    },
+    {
+      label: 'Total Remaining Budget',
+      value: formatCurrency(budgetTotals.totalRemaining),
+      change: budgetTotals.totalRemaining >= 0 ? 'On track' : 'Over budget',
+      tone: budgetTotals.totalRemaining >= 0 ? 'emerald' : 'rust',
     },
   ]
 
@@ -49,75 +95,43 @@ export default function Dashboard() {
         ))}
       </div>
 
-      <div className="dashboard-grid">
-        {/* Spending by category */}
-        <Card className="dashboard-grid-span2">
+      {/* Quick Statistics */}
+      <div className="quick-stats-grid">
+        {quickStatCards.map((stat) => (
+          <StatCard key={stat.label} {...stat} />
+        ))}
+      </div>
+
+      {/* Budget totals */}
+      <div className="budget-stats-grid">
+        {budgetStatCards.map((stat) => (
+          <StatCard key={stat.label} {...stat} />
+        ))}
+      </div>
+
+      {/* Charts: Expense by Category (doughnut) + Income vs Expense (bar) */}
+      <div className="charts-grid">
+        <Card>
           <div className="category-card-header">
-            <h2 className="category-card-title">Spending by category</h2>
+            <h2 className="category-card-title">Expense by category</h2>
             <span className="category-card-period">This month</span>
           </div>
-
-          {categoryBreakdown.length === 0 ? (
-            <p className="category-empty">No expenses recorded yet.</p>
-          ) : (
-            <div className="category-list">
-              {categoryBreakdown.map((cat) => (
-                <div key={cat.label}>
-                  <div className="category-row-header">
-                    <span className="category-row-label">{cat.label}</span>
-                    <span className="nums category-row-amount">
-                      {formatCurrency(cat.amount)}
-                    </span>
-                  </div>
-                  <div className="category-bar-track">
-                    <div
-                      className="category-bar-fill"
-                      style={{ width: `${cat.share}%` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
+          <ExpenseCategoryChart categoryBreakdown={categoryBreakdown} />
         </Card>
 
-        {/* Recent activity — now backed by real transaction state */}
-        <Card className={recentTransactions.length ? 'recent-activity' : 'empty-state'}>
-          {recentTransactions.length === 0 ? (
-            <>
-              <div className="empty-state-icon">
-                <Inbox size={20} strokeWidth={1.75} />
-              </div>
-              <h3 className="empty-state-title">No recent activity yet</h3>
-              <p className="empty-state-body">
-                Transaction history will show up here once accounts are connected.
-              </p>
-            </>
-          ) : (
-            <>
-              <h3 className="recent-activity-title">Recent activity</h3>
-              <ul className="recent-activity-list">
-                {recentTransactions.map((t) => (
-                  <li key={t.id} className="recent-activity-item">
-                    <div>
-                      <p className="recent-activity-item-title">{t.title}</p>
-                      <p className="recent-activity-item-meta">{t.category}</p>
-                    </div>
-                    <span
-                      className={`nums recent-activity-amount ${
-                        t.type === 'Income' ? 'amount-positive' : 'amount-negative'
-                      }`}
-                    >
-                      {t.type === 'Income' ? '+' : '-'}
-                      {formatCurrency(t.amount)}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </>
-          )}
+        <Card>
+          <div className="category-card-header">
+            <h2 className="category-card-title">Income vs expense</h2>
+            <span className="category-card-period">This month</span>
+          </div>
+          <IncomeExpenseChart stats={stats} />
         </Card>
       </div>
+
+      {/* Recent Transactions */}
+      <Card>
+        <RecentTransactionsCard transactions={recentTransactions} />
+      </Card>
     </div>
   )
 }

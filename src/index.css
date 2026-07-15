@@ -10,6 +10,8 @@
   --color-emerald-soft: #E7F0EA;
   --color-rust: #C1553D;
   --color-rust-soft: #F6E9E5;
+  --color-amber: #B8862E;
+  --color-amber-soft: #F5EBD9;
 
   --font-display: "Fraunces", serif;
   --font-sans: "Inter", sans-serif;
@@ -473,16 +475,6 @@ button {
   .stat-grid { grid-template-columns: repeat(4, 1fr); }
 }
 
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1.5rem;
-}
-@media (min-width: 1024px) {
-  .dashboard-grid { grid-template-columns: repeat(3, 1fr); }
-  .dashboard-grid-span2 { grid-column: span 2 / span 2; }
-}
-
 .category-card-header {
   margin-bottom: 1.25rem;
   display: flex;
@@ -501,42 +493,6 @@ button {
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: var(--color-ink-faint);
-}
-
-.category-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.category-row-header {
-  margin-bottom: 0.375rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 0.875rem;
-}
-
-.category-row-label {
-  color: var(--color-ink-soft);
-}
-
-.category-row-amount {
-  color: var(--color-ink);
-}
-
-.category-bar-track {
-  height: 0.5rem;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 9999px;
-  background: rgba(31, 36, 33, 0.05);
-}
-
-.category-bar-fill {
-  height: 100%;
-  border-radius: 9999px;
-  background: var(--color-emerald);
 }
 
 .empty-state {
@@ -859,19 +815,98 @@ button {
   margin: 0;
 }
 
-.recent-activity {
+.recent-activity-amount {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+/* ---------- Table row actions (Edit / Delete) ---------- */
+.actions-col {
+  text-align: right;
+  width: 1%;
+  white-space: nowrap;
+}
+
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.375rem;
+}
+
+.table-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-ink-soft);
+  padding: 0;
+}
+.table-action-btn:hover {
+  background: var(--color-paper);
+  color: var(--color-ink);
+}
+.table-action-btn--danger:hover {
+  background: var(--color-rust-soft);
+  color: var(--color-rust);
+  border-color: var(--color-rust);
+}
+
+/* ---------- Quick Statistics (dashboard, Step 4) ---------- */
+.quick-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .quick-stats-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+/* ---------- Charts (dashboard, Step 4) ---------- */
+.charts-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 1024px) {
+  .charts-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.chart-canvas-wrap {
+  position: relative;
+  height: 260px;
+  width: 100%;
+}
+@media (min-width: 640px) {
+  .chart-canvas-wrap { height: 280px; }
+}
+
+/* ---------- Recent transactions (dashboard, Step 4) ---------- */
+.recent-transactions {
   display: flex;
   flex-direction: column;
 }
 
-.recent-activity-title {
+.recent-transactions-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.recent-transactions-title {
   font-family: var(--font-display);
   font-size: 1.125rem;
   color: var(--color-ink);
-  margin-bottom: 1rem;
+  margin: 0;
 }
 
-.recent-activity-list {
+.recent-transactions-list {
   list-style: none;
   margin: 0;
   padding: 0;
@@ -880,27 +915,165 @@ button {
   gap: 0.875rem;
 }
 
-.recent-activity-item {
+.recent-transactions-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding-bottom: 0.875rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.recent-transactions-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.recent-transactions-item-main {
+  min-width: 0;
+}
+
+.recent-transactions-item-title {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.recent-transactions-item-meta {
+  margin: 0.125rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-ink-faint);
+}
+
+/* ---------- Button size variant ---------- */
+.btn-small {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.8125rem;
+}
+
+/* ---------- Budget totals (dashboard, Step 5) ---------- */
+.budget-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+@media (min-width: 640px) {
+  .budget-stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ---------- Budgets page (Step 5) ---------- */
+.budgets-page {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.budgets-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.budgets-toolbar-copy {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-ink-soft);
+}
+
+.budgets-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+@media (min-width: 640px) {
+  .budgets-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1280px) {
+  .budgets-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.budget-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.budget-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
 }
 
-.recent-activity-item-title {
-  margin: 0;
-  font-size: 0.875rem;
+.budget-card-category {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
   color: var(--color-ink);
+  margin: 0;
 }
 
-.recent-activity-item-meta {
-  margin: 0.125rem 0 0;
+.budget-card-figures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.budget-card-figure-label {
+  margin: 0;
   font-size: 0.75rem;
   color: var(--color-ink-faint);
 }
 
-.recent-activity-amount {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
+.budget-card-figure-value {
+  margin: 0.25rem 0 0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+/* Progress bar — track color is a soft tint of the status, fill is solid */
+.budget-bar-track {
+  height: 0.5rem;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: rgba(31, 36, 33, 0.05);
+}
+
+.budget-bar-fill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.2s ease-out;
+}
+.budget-bar-fill--green {
+  background: var(--color-emerald);
+}
+.budget-bar-fill--yellow {
+  background: var(--color-amber);
+}
+.budget-bar-fill--red {
+  background: var(--color-rust);
+}
+
+.budget-card-percent {
+  margin: -0.375rem 0 0;
+  font-size: 0.75rem;
+  color: var(--color-ink-faint);
+}
+
+.budget-exceeded {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  margin: 0;
+  border-radius: var(--radius-md);
+  background: var(--color-rust-soft);
+  color: var(--color-rust);
+  padding: 0.5rem 0.625rem;
+  font-size: 0.8125rem;
   font-weight: 500;
 }

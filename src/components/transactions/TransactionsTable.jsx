@@ -1,15 +1,11 @@
+import { Pencil, Trash2 } from 'lucide-react'
 import Badge from '../ui/Badge.jsx'
 import { formatCurrency, formatDate } from '../../utils/format.js'
 
-export default function TransactionsTable({ transactions }) {
-  if (transactions.length === 0) {
-    return (
-      <div className="table-empty">
-        <p>No transactions match your search.</p>
-      </div>
-    )
-  }
-
+// Assumes `transactions` is already filtered/non-empty — Transactions.jsx
+// decides what to render when there's nothing to show, so that empty-state
+// logic lives in exactly one place.
+export default function TransactionsTable({ transactions, onEdit, onDelete }) {
   return (
     <div className="table-wrap">
       <table className="transactions-table">
@@ -20,6 +16,7 @@ export default function TransactionsTable({ transactions }) {
             <th>Category</th>
             <th>Type</th>
             <th className="amount-col">Amount</th>
+            <th className="actions-col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -40,6 +37,24 @@ export default function TransactionsTable({ transactions }) {
               >
                 {t.type === 'Income' ? '+' : '-'}
                 {formatCurrency(t.amount)}
+              </td>
+              <td className="actions-col">
+                <div className="table-actions">
+                  <button
+                    className="table-action-btn"
+                    onClick={() => onEdit(t)}
+                    aria-label={`Edit ${t.title}`}
+                  >
+                    <Pencil size={15} strokeWidth={1.75} />
+                  </button>
+                  <button
+                    className="table-action-btn table-action-btn--danger"
+                    onClick={() => onDelete(t)}
+                    aria-label={`Delete ${t.title}`}
+                  >
+                    <Trash2 size={15} strokeWidth={1.75} />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}
