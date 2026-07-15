@@ -1,37 +1,35 @@
 # 💰 FinSight – Personal Finance Dashboard
 
-A modern personal finance dashboard built with React and Vite. The project helps users track income and expenses, visualize spending patterns, and manage transactions through an intuitive interface.
-
-> 🚧 Current Status: Development in Progress (Completed up to Step 5)
+A modern personal finance dashboard built with **React** and **Vite** that helps users track income and expenses, manage monthly budgets, and monitor spending through an intuitive dashboard. All data is stored in the browser using **LocalStorage**, so no backend setup is required.
 
 ---
 
-## ✨ Features Completed
+## ✨ Features
 
 ### Dashboard
 - Responsive dashboard layout
 - Sidebar navigation
-- Top navigation bar
 - Dashboard overview cards
-- Clean and modern UI
+- Clean and modern user interface
 
 ### Transaction Management
 - Add new transactions
-- Delete transactions
 - Edit existing transactions
+- Delete transactions
 - Transaction history
 - Form validation
 
-### Expense Tracking
-- Income tracking
-- Expense tracking
-- Balance calculation
-- Category-based transactions
+### Budget Management
+- Create monthly budgets by category
+- Track spending against budgets
+- View remaining budget
+- Color-coded budget progress
+- Budget exceeded alerts
 
 ### Data Persistence
 - LocalStorage integration
 - Data persists after page refresh
-- Automatic loading of saved transactions
+- Automatic loading of saved data
 
 ---
 
@@ -40,7 +38,9 @@ A modern personal finance dashboard built with React and Vite. The project helps
 - React.js
 - Vite
 - JavaScript (ES6+)
-- Tailwind CSS
+- React Router
+- Chart.js
+- CSS
 - LocalStorage API
 
 ---
@@ -50,38 +50,42 @@ A modern personal finance dashboard built with React and Vite. The project helps
 ```
 src/
 ├── components/
-│   ├── layout/
-│   ├── ui/
-│   └── transactions/
 ├── pages/
 ├── data/
 ├── utils/
-└── App.jsx
+├── App.jsx
+└── main.jsx
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Installation
 
-### Clone the repository
+Clone the repository:
 
 ```bash
 git clone https://github.com/lokeshkommaraju06/finsight-personal-finance-dashboard.git
 ```
 
-### Install dependencies
+Move into the project directory:
+
+```bash
+cd finsight-personal-finance-dashboard
+```
+
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-### Start the development server
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-Open:
+Open your browser and visit:
 
 ```
 http://localhost:5173
@@ -89,45 +93,25 @@ http://localhost:5173
 
 ---
 
-## 📸 Current Progress
+## 📌 Features Implemented
 
-✔ Dashboard Layout
-
-✔ Transaction CRUD
-
-✔ Local Storage Integration
-
-✔ Responsive UI
-
-🚧 Charts and Analytics (Coming Soon)
-
-🚧 Budget Management (Coming Soon)
-
-🚧 Export Features (Coming Soon)
+- Responsive Dashboard
+- Transaction CRUD Operations
+- Budget Management
+- LocalStorage Persistence
+- Category-wise Expense Tracking
+- Modern User Interface
 
 ---
 
-## 📌 Future Improvements
+## 🔮 Future Enhancements
 
-- Interactive Charts
-- Budget Goals
-- Monthly Analytics
+- User Authentication
+- Backend Integration
+- Cloud Database
 - Export Transactions (CSV/PDF)
 - Dark Mode
-- User Authentication
-- Cloud Database Integration
+- Financial Reports and Analytics
+- Recurring Transactions
 
 ---
-
-## 👨‍💻 Author
-
-**Lokesh Kommaraju**
-
-GitHub:
-https://github.com/lokeshkommaraju06
-
----
-
-## 📄 License
-
-This project is created for learning and portfolio purposes.
