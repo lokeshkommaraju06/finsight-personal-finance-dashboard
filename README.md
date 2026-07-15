@@ -1,106 +1,89 @@
-# 💰 FinSight – Personal Finance Dashboard
+# Ledger — Personal Finance Dashboard
 
-A modern personal finance dashboard built with **React** and **Vite** that helps users track income and expenses, manage monthly budgets, and monitor spending through an intuitive dashboard. All data is stored in the browser using **LocalStorage**, so no backend setup is required.
+A modern personal finance dashboard built with **React** and **Vite**. The application helps users track income and expenses, visualize spending patterns, and manage monthly budgets through a clean, responsive interface. All data is stored locally using the browser's Local Storage.
+
+## 🚀 Live Demo
+
+https://finsight-personal-finance-dashboard-six.vercel.app
+
+## 📂 GitHub Repository
+
+https://github.com/lokeshkommaraju06/finsight-personal-finance-dashboard
 
 ---
 
 ## ✨ Features
 
-### Dashboard
-- Responsive dashboard layout
-- Sidebar navigation
-- Dashboard overview cards
-- Clean and modern user interface
+### 📊 Dashboard
+- Financial summary cards
+- Expense by category chart
+- Income vs Expense chart
+- Recent transactions
+- Quick statistics
+- Responsive design
 
-### Transaction Management
-- Add new transactions
-- Edit existing transactions
+### 💳 Transactions
+- Add transactions
+- Edit transactions
 - Delete transactions
-- Transaction history
-- Form validation
+- Search transactions
+- Filter by transaction type
+- Local Storage persistence
 
-### Budget Management
+### 💰 Budget Management
 - Create monthly budgets by category
 - Track spending against budgets
-- View remaining budget
-- Color-coded budget progress
+- Remaining budget calculation
+- Budget progress visualization
 - Budget exceeded alerts
-
-### Data Persistence
-- LocalStorage integration
-- Data persists after page refresh
-- Automatic loading of saved data
+- Budget summary cards
 
 ---
 
 ## 🛠️ Tech Stack
 
-- React.js
+- React 18
 - Vite
-- JavaScript (ES6+)
-- React Router
+- React Router DOM
 - Chart.js
-- CSS
-- LocalStorage API
+- React Chart.js 2
+- Lucide React
+- CSS3
+- Local Storage
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
-```
+```text
 src/
 ├── components/
 ├── pages/
-├── data/
+├── hooks/
 ├── utils/
+├── data/
 ├── App.jsx
-└── main.jsx
+├── main.jsx
+└── index.css
 ```
 
 ---
 
-## 🚀 Installation
-
-Clone the repository:
+## ▶️ Getting Started
 
 ```bash
 git clone https://github.com/lokeshkommaraju06/finsight-personal-finance-dashboard.git
-```
-
-Move into the project directory:
-
-```bash
 cd finsight-personal-finance-dashboard
-```
-
-Install dependencies:
-
-```bash
 npm install
-```
-
-Start the development server:
-
-```bash
 npm run dev
 ```
 
-Open your browser and visit:
-
-```
-http://localhost:5173
-```
+Open **http://localhost:5173** in your browser.
 
 ---
 
-## 📌 Features Implemented
+## 👨‍💻 Author
 
-- Responsive Dashboard
-- Transaction CRUD Operations
-- Budget Management
-- LocalStorage Persistence
-- Category-wise Expense Tracking
-- Modern User Interface
+**Lokesh Kommaraju**
 
----
-
+GitHub: https://github.com/lokeshkommaraju06
