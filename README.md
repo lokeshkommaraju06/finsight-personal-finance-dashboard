@@ -104,14 +104,3 @@ http://localhost:5173
 
 ---
 
-## 🔮 Future Enhancements
-
-- User Authentication
-- Backend Integration
-- Cloud Database
-- Export Transactions (CSV/PDF)
-- Dark Mode
-- Financial Reports and Analytics
-- Recurring Transactions
-
----
