@@ -1,4 +1,5 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { Plus } from 'lucide-react'
 import Card from '../components/ui/Card.jsx'
 import TransactionFilters from '../components/transactions/TransactionFilters.jsx'
@@ -10,10 +11,19 @@ export default function Transactions() {
   const { transactions, addTransaction, updateTransaction, deleteTransaction } =
     useTransactions()
 
-  const [search, setSearch] = useState('')
+  const [searchParams] = useSearchParams()
+  const [search, setSearch] = useState(() => searchParams.get('q') || '')
   const [typeFilter, setTypeFilter] = useState('All')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [editingTransaction, setEditingTransaction] = useState(null)
+
+  useEffect(() => {
+    const q = searchParams.get('q')
+    if (q !== null) {
+      setSearch(q)
+    }
+  }, [searchParams])
+
 
   const filteredTransactions = useMemo(() => {
     return transactions

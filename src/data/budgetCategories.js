@@ -37,3 +37,12 @@ export const TRANSACTION_TO_BUDGET_CATEGORY = {
 export function mapToBudgetCategory(transactionCategory) {
   return TRANSACTION_TO_BUDGET_CATEGORY[transactionCategory] || 'Others'
 }
+
+// Sample budgets for testing and demo purposes
+export const sampleBudgets = [
+  { id: 'b1', category: 'Food', amount: 500 },
+  { id: 'b2', category: 'Bills', amount: 1600 },
+  { id: 'b3', category: 'Travel', amount: 150 },
+  { id: 'b4', category: 'Entertainment', amount: 100 },
+]
+

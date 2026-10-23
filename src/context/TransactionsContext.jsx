@@ -42,6 +42,20 @@ export function TransactionsProvider({ children }) {
     setTransactions((prev) => prev.filter((t) => t.id !== id))
   }
 
+  function resetTransactions() {
+    setTransactions(initialTransactions)
+  }
+
+  function clearTransactions() {
+    setTransactions([])
+  }
+
+  function importTransactions(newTransactions) {
+    if (Array.isArray(newTransactions)) {
+      setTransactions(newTransactions)
+    }
+  }
+
   // Recomputes automatically whenever `transactions` changes —
   // this is how the Dashboard stays in sync with add/edit/delete.
   const stats = useMemo(() => calculateDashboardStats(transactions), [transactions])
@@ -60,10 +74,14 @@ export function TransactionsProvider({ children }) {
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    resetTransactions,
+    clearTransactions,
+    importTransactions,
     stats,
     categoryBreakdown,
     quickStats,
   }
+
 
   return (
     <TransactionsContext.Provider value={value}>

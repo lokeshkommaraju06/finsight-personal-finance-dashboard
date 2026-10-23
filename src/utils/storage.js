@@ -3,6 +3,7 @@
 
 const TRANSACTIONS_KEY = 'finsight-transactions'
 const BUDGETS_KEY = 'finsight-budgets'
+const SETTINGS_KEY = 'finsight-settings'
 
 // Generic read: returns the parsed value for `key`, or null if nothing is
 // stored yet (or if the stored value can't be read/parsed). Both the
@@ -46,3 +47,25 @@ export function getStoredBudgets() {
 export function setStoredBudgets(budgets) {
   writeJSON(BUDGETS_KEY, budgets)
 }
+
+// Returns the stored user settings object, or null if not yet saved.
+export function getStoredSettings() {
+  return readJSON(SETTINGS_KEY)
+}
+
+// Saves the user settings object to localStorage.
+export function setStoredSettings(settings) {
+  writeJSON(SETTINGS_KEY, settings)
+}
+
+// Clears all application data from localStorage.
+export function clearAllStoredData() {
+  try {
+    localStorage.removeItem(TRANSACTIONS_KEY)
+    localStorage.removeItem(BUDGETS_KEY)
+    localStorage.removeItem(SETTINGS_KEY)
+  } catch (error) {
+    console.error('Failed to clear stored data:', error)
+  }
+}
+

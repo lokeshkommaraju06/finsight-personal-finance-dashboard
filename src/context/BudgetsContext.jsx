@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { useTransactions } from './TransactionsContext.jsx'
 import { getStoredBudgets, setStoredBudgets } from '../utils/storage.js'
 import { calculateBudgetSummary, calculateBudgetTotals } from '../utils/calculateBudget.js'
+import { sampleBudgets } from '../data/budgetCategories.js'
 
 const BudgetsContext = createContext(null)
 
@@ -11,9 +12,11 @@ export function BudgetsProvider({ children }) {
   const { transactions } = useTransactions()
 
   // Lazy initializer: start from whatever's already in localStorage, or
-  // an empty list on a first-ever visit — there's no mock budget data,
-  // budgets are something the user sets up themselves.
-  const [budgets, setBudgets] = useState(() => getStoredBudgets() ?? [])
+  // sample budgets on a first-ever visit so budgets and reports work right away.
+  const [budgets, setBudgets] = useState(() => {
+    const stored = getStoredBudgets()
+    return stored ?? sampleBudgets
+  })
 
   // Persist to localStorage any time the budget list changes.
   useEffect(() => {
@@ -38,6 +41,20 @@ export function BudgetsProvider({ children }) {
     setBudgets((prev) => prev.filter((b) => b.id !== id))
   }
 
+  function resetBudgets() {
+    setBudgets(sampleBudgets)
+  }
+
+  function clearBudgets() {
+    setBudgets([])
+  }
+
+  function importBudgets(newBudgets) {
+    if (Array.isArray(newBudgets)) {
+      setBudgets(newBudgets)
+    }
+  }
+
   // Recomputes automatically whenever budgets or transactions change —
   // this is how budget cards and the Dashboard totals stay in sync.
   const budgetSummary = useMemo(
@@ -55,9 +72,13 @@ export function BudgetsProvider({ children }) {
     addBudget,
     updateBudget,
     deleteBudget,
+    resetBudgets,
+    clearBudgets,
+    importBudgets,
     budgetSummary,
     budgetTotals,
   }
+
 
   return (
     <BudgetsContext.Provider value={value}>{children}</BudgetsContext.Provider>
