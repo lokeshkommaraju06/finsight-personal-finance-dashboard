@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   ArrowLeftRight,
   PiggyBank,
-  BarChart3,
   Settings,
   X,
 } from 'lucide-react'
@@ -12,8 +11,8 @@ const NAV_ITEMS = [
   { label: 'Dashboard', icon: LayoutDashboard, path: '/', end: true },
   { label: 'Transactions', icon: ArrowLeftRight, path: '/transactions' },
   { label: 'Budgets', icon: PiggyBank, path: '/budgets' },
-  { label: 'Reports', icon: BarChart3, path: '/reports' },
 ]
+
 
 export default function Sidebar({ open, onClose }) {
   return (

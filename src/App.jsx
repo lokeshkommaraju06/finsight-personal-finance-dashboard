@@ -3,7 +3,6 @@ import DashboardLayout from './components/layout/DashboardLayout.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Transactions from './pages/Transactions.jsx'
 import Budgets from './pages/Budgets.jsx'
-import Reports from './pages/Reports.jsx'
 import Settings from './pages/Settings.jsx'
 import { TransactionsProvider } from './context/TransactionsContext.jsx'
 import { BudgetsProvider } from './context/BudgetsContext.jsx'
@@ -49,22 +48,11 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/reports"
-        element={
-          <DashboardLayout
-            title="Financial Reports"
-            subtitle="Analyze spending trends and budget performance"
-          >
-            <Reports />
-          </DashboardLayout>
-        }
-      />
-      <Route
         path="/settings"
         element={
           <DashboardLayout
             title="Settings"
-            subtitle="Personalize profile, currency, and manage data"
+            subtitle="Personalize profile, currency, and date formats"
           >
             <Settings />
           </DashboardLayout>
@@ -73,6 +61,7 @@ function AppRoutes() {
     </Routes>
   )
 }
+
 
 export default function App() {
   return (
